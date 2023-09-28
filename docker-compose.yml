@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  train-job:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    user: root
+    volumes:
+      - ./scripts:/root/scripts
+    container_name: train-pod
+    command: /bin/bash
+    stdin_open: true
+    tty: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: all
+            capabilities: [gpu]
